@@ -5,19 +5,28 @@ class CustomDropDown extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.currencies = props.currencies;
+        this.state = {
+            placeholder: props.placeholder
+        }
     }
 
-    choseCurrency(elem, e) {
-       
+    choseCurrency(elem, e, value) {
+        this.setState({
+            placeholder: elem
+        });
+        this.props.convertHandler(e);
     }
 
     currenciesItems() {
         let listItems = [], index = 0;
         for (let currencie in this.props.currencies) {
-
             listItems.push(
-                <NavItem key={index} onClick={this.choseCurrency.bind(this, currencie)}>
+                <NavItem
+                    key={index}
+                    onClick={this.choseCurrency.bind(this, currencie, this.props.currencies[currencie])}
+                >
                     {currencie} {this.props.currencies[currencie]}
+                    
                 </NavItem>
             );
             index++;
@@ -30,7 +39,7 @@ class CustomDropDown extends React.Component {
 
         return (
             <Dropdown trigger={
-                <Button>{this.props.placeholder}</Button>
+                <Button>{this.state.placeholder}</Button>
                 } options={
                     dropDownOptions
                 }
